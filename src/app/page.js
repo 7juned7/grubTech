@@ -71,7 +71,7 @@ export default function LandingPage() {
   </a>
 
   <a
-    href="/live/demo"
+    href="/live/teacher"
     className="
       px-7 py-4 rounded-2xl
       border border-white/10
@@ -83,7 +83,7 @@ export default function LandingPage() {
       transition-all duration-300
     "
   >
-    Live Demo Class
+    Live teacher Class
   </a>
 
   <a

@@ -4,12 +4,12 @@
 
 export const mockContents = [
   // =========================
-  // TEACHER : demo
+  // TEACHER : teacher
   // =========================
 
   {
     id: 1,
-    teacherId: "demo",
+    teacherId: "science",
     title: "Introduction to Algebra",
     subject: "Mathematics",
     description:
@@ -24,7 +24,7 @@ export const mockContents = [
 
   {
     id: 2,
-    teacherId: "demo",
+    teacherId: "teacher",
     title: "Newton's Laws of Motion",
     subject: "Physics",
     description:
@@ -39,7 +39,7 @@ export const mockContents = [
 
   {
     id: 3,
-    teacherId: "demo",
+    teacherId: "teacher",
     title: "Programming Fundamentals",
     subject: "Computer Science",
     description:
@@ -55,7 +55,7 @@ export const mockContents = [
 
   {
     id: 4,
-    teacherId: "demo",
+    teacherId: "teacher",
     title: "Database Fundamentals",
     subject: "Computer Science",
     description:
@@ -70,7 +70,7 @@ export const mockContents = [
 
   {
     id: 5,
-    teacherId: "demo",
+    teacherId: "teacher",
     title: "Grammar Basics",
     subject: "English",
     description:
@@ -85,7 +85,7 @@ export const mockContents = [
 
   {
     id: 6,
-    teacherId: "demo",
+    teacherId: "teacher",
     title: "Shakespeare Sonnets",
     subject: "English",
     description:
