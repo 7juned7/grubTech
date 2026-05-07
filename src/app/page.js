@@ -55,17 +55,54 @@ export default function LandingPage() {
             </p>
 
             <div className="mt-10 flex flex-wrap gap-4">
-              <a
-                href="/login"
-                className="px-7 py-4 rounded-2xl bg-white text-black font-semibold hover:scale-105 transition-all duration-300 shadow-2xl"
-              >
-                Get Started
-              </a>
 
-              <button className="px-7 py-4 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl hover:bg-white/10 transition-all duration-300">
-                Explore Platform
-              </button>
-            </div>
+  <a
+    href="/login"
+    className="
+      px-7 py-4 rounded-2xl
+      bg-white text-black
+      font-semibold
+      hover:scale-105
+      transition-all duration-300
+      shadow-2xl
+    "
+  >
+    Get Started
+  </a>
+
+  <a
+    href="/live/demo"
+    className="
+      px-7 py-4 rounded-2xl
+      border border-white/10
+      bg-blue-500/10
+      text-white
+      backdrop-blur-xl
+      hover:bg-blue-500/20
+      hover:scale-105
+      transition-all duration-300
+    "
+  >
+    Live Demo Class
+  </a>
+
+  <a
+    href="/live/science"
+    className="
+      px-7 py-4 rounded-2xl
+      border border-white/10
+      bg-purple-500/10
+      text-white
+      backdrop-blur-xl
+      hover:bg-purple-500/20
+      hover:scale-105
+      transition-all duration-300
+    "
+  >
+    Science Live Session
+  </a>
+
+</div>
 
             {/* Stats */}
             <div className="grid grid-cols-3 gap-4 mt-14">

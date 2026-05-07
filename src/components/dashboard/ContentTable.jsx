@@ -82,7 +82,7 @@ const filteredData = data.filter((item) => {
                 {isPrincipal && (
                   <td className="p-3">
                     {item.status === "pending" ? (
-                      <div className="flex gap-2">
+                      <div className="flex gap-2 cursor-pointer">
                         <Button
                           size="sm"
                           disabled={loadingId === item.id}
@@ -97,6 +97,7 @@ const filteredData = data.filter((item) => {
                         </Button>
 
                         <Button
+                        className="cursor-pointer"
                           size="sm"
                           variant="destructive"
                           onClick={() => setRejectId(item.id)}
@@ -209,6 +210,7 @@ const filteredData = data.filter((item) => {
 
               <div className="flex justify-end gap-2">
                 <Button
+                className="cursor-pointer"
                   variant="outline"
                   onClick={() => {
                     setRejectId(null);
@@ -219,6 +221,7 @@ const filteredData = data.filter((item) => {
                 </Button>
 
                 <Button
+                className="cursor-pointer"
                   variant="destructive"
                   disabled={
                     !reason.trim() || rejectMutation.isPending

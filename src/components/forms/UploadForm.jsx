@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
 import { FormField } from "@/utils/formFields";
+import { Button } from "../ui/button";
 
 const schema = z
   .object({
@@ -283,17 +284,24 @@ export default function UploadForm() {
             {/* SUBMIT */}
             <div className="pt-2">
               
-              <button
-                type="submit"
-                disabled={
-                  mutation.isPending
-                }
-                className="w-full h-12 rounded-2xl bg-black text-white font-semibold hover:bg-black/90 hover:scale-[0.99] active:scale-[0.98] transition-all disabled:opacity-50"
-              >
-                {mutation.isPending
-                  ? "Uploading..."
-                  : "Publish Session"}
-              </button>
+             <Button
+  type="submit"
+  disabled={
+    mutation.isPending
+  }
+  size="lg"
+  className="
+    w-full
+    h-12
+    rounded-2xl
+    font-semibold
+    cursor-pointer
+  "
+>
+  {mutation.isPending
+    ? "Uploading..."
+    : "Publish Session"}
+</Button>
 
             </div>
           </div>
@@ -359,6 +367,7 @@ export default function UploadForm() {
                   shadow-sm
                   focus-visible:ring-2
                   focus-visible:ring-black/5
+                   cursor-pointer
                   ${
                     errors.file
                       ? "border-red-300"

@@ -6,6 +6,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { AuthContext } from "@/context/AuthContext";
 import { Menu, X } from "lucide-react";
 import ProtectedRoute from "@/protectedRoute";
+import { Button } from "@/components/ui/button";
 
 export default function PrincipalLayout({ children }) {
   const { logout } = useContext(AuthContext);
@@ -76,12 +77,18 @@ export default function PrincipalLayout({ children }) {
         </div>
 
         {/* Bottom */}
-        <button
-          onClick={handleLogout}
-          className="bg-red-500 hover:bg-red-600 px-4 py-2 rounded text-sm"
-        >
-          Logout
-        </button>
+        <Button
+  onClick={handleLogout}
+  variant="destructive"
+  size="lg"
+  className="
+    rounded-xl
+    cursor-pointer
+    font-medium
+  "
+>
+  Logout
+</Button>
       </div>
 
       {/* Content */}

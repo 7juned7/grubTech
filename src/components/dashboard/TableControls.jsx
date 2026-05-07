@@ -32,7 +32,7 @@ export default function TableControls({
             variant={filter === f ? "default" : "outline"}
             size="sm"
             onClick={() => setFilter(f)}
-            className="capitalize"
+            className="capitalize cursor-pointer"
           >
             {f}
           </Button>

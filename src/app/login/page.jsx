@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 
 import { FormField } from "@/utils/formFields";
+import { Button } from "@/components/ui/button";
 
 const schema = z.object({
   email: z
@@ -288,17 +289,25 @@ export default function LoginPage() {
               </FormField>
 
               {/* BUTTON */}
-              <button
-                type="submit"
-                disabled={
-                  isSubmitting
-                }
-                className="w-full h-12 rounded-2xl bg-black text-white font-semibold hover:bg-black/90 transition-all disabled:opacity-50"
-              >
-                {isSubmitting
-                  ? "Logging in..."
-                  : "Login"}
-              </button>
+             <Button
+  type="submit"
+  disabled={isSubmitting}
+  size="lg"
+  className="
+    w-full
+    rounded-2xl
+    font-semibold
+    cursor-pointer
+    hover:scale-[1.01]
+    active:scale-[0.99]
+    transition-all
+    duration-300
+  "
+>
+  {isSubmitting
+    ? "Logging in..."
+    : "Login"}
+</Button>
 
             </form>
 
