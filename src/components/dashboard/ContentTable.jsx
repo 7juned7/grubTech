@@ -5,6 +5,7 @@ import { useApproval } from "@/hooks/useApproval";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import TableControls from "./TableControls";
+import Image from "next/image";
 export default function ContentTable({
   data,
   showPreview = false,
@@ -115,36 +116,90 @@ const filteredData = data.filter((item) => {
 
                 
                 {/* PREVIEW */}
-{showPreview && (
-  <td className="p-3">
-    <div className="flex justify-center">
-      
-      {item.preview ? (
-        <div className="relative group">
-          
-          <img
-            src={item.preview}
-            alt="preview"
-            className="w-20 h-14 object-cover rounded-xl border border-gray-200 shadow-sm transition group-hover:scale-105"
-          />
+{
+  showPreview && (
+    <td className="p-3">
+      <div className="flex justify-center">
+        
+        {item.preview ? (
+          <div className="relative group">
+            
+            <div
+              className="
+                relative
+                w-20
+                h-14
+                overflow-hidden
+                rounded-xl
+                border
+                border-gray-200
+                shadow-sm
+              "
+            >
+              <Image
+                src={item.preview}
+                alt="preview"
+                fill
+                unoptimized
+                loading="lazy"
+                sizes="80px"
+                className="
+                  object-cover
+                  transition-transform
+                  duration-300
+                  group-hover:scale-105
+                "
+              />
+            </div>
 
-          {/* HOVER OVERLAY */}
-          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition rounded-xl flex items-center justify-center">
-            <span className="text-[10px] text-white font-medium">
-              Preview
-            </span>
+            {/* HOVER OVERLAY */}
+            <div
+              className="
+                absolute
+                inset-0
+                bg-black/40
+                opacity-0
+                group-hover:opacity-100
+                transition
+                rounded-xl
+                flex
+                items-center
+                justify-center
+              "
+            >
+              <span
+                className="
+                  text-[10px]
+                  text-white
+                  font-medium
+                "
+              >
+                Preview
+              </span>
+            </div>
           </div>
-
-        </div>
-      ) : (
-        <div className="w-20 h-14 bg-muted border rounded-xl flex items-center justify-center text-[10px] text-muted-foreground">
-          No Image
-        </div>
-      )}
-
-    </div>
-  </td>
-)}
+        ) : (
+          <div
+            className="
+              w-20
+              h-14
+              bg-muted
+              border
+              rounded-xl
+              flex
+              items-center
+              justify-center
+              text-[10px]
+              text-muted-foreground
+            "
+          >
+            No Image
+          </div>
+        )}
+      </div>
+    </td>
+  )
+}
 
                 {/* TITLE */}
                 <td className="p-3 font-medium truncate">

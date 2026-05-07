@@ -8,6 +8,7 @@ import {
   setStorageData,
   STORAGE_KEYS,
 } from "@/utils/storage";
+import { compressImage } from "@/utils/compressImage";
 
 /* =========================
    GET TEACHER CONTENT
@@ -83,10 +84,9 @@ export const uploadContent =
       );
     }
 
-    const previewUrl =
-      URL.createObjectURL(
-        file
-      );
+    // 🔥 COMPRESSED BASE64
+    const compressedBase64 =
+      await compressImage(file);
 
     const newItem = {
       id: Date.now(),
@@ -117,7 +117,8 @@ export const uploadContent =
 
       fileType: file.type,
 
-      preview: previewUrl,
+      preview:
+        compressedBase64,
     };
 
     const updated = [

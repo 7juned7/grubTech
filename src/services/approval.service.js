@@ -9,31 +9,63 @@ import {
 } from "@/utils/storage";
 
 /* =========================
-   GET ALL CONTENT
+   HELPERS
 ========================= */
 
-export const getAllContent =
-  async () => {
-
-    await new Promise((res) =>
-      setTimeout(res, 300)
-    );
-
+const validatePrincipal =
+  () => {
     const user =
       getCurrentUser();
 
     if (
-      user?.role !== "principal"
+      user?.role !==
+      "principal"
     ) {
       throw new Error(
         "Unauthorized"
       );
     }
 
+    return user;
+  };
+
+const updateContentStatus =
+  (
+    stored,
+    id,
+    updates
+  ) => {
+    return stored.map(
+      (item) =>
+        item.id === id
+          ? {
+              ...item,
+              ...updates,
+            }
+          : item
+    );
+  };
+
+/* =========================
+   GET ALL CONTENT
+========================= */
+
+export const getAllContent =
+  async () => {
+    await new Promise(
+      (res) =>
+        setTimeout(
+          res,
+          300
+        )
+    );
+
+    validatePrincipal();
+
     const stored =
       getStorageData(
         STORAGE_KEYS.CONTENT
-      );
+      ) || [];
 
     return {
       allData: stored,
@@ -46,40 +78,35 @@ export const getAllContent =
 
 export const approveContent =
   async (id) => {
-
-    await new Promise((res) =>
-      setTimeout(res, 300)
+    await new Promise(
+      (res) =>
+        setTimeout(
+          res,
+          300
+        )
     );
 
-    const user =
-      getCurrentUser();
-
-    if (
-      user?.role !== "principal"
-    ) {
-      throw new Error(
-        "Unauthorized"
-      );
-    }
+    validatePrincipal();
 
     const stored =
       getStorageData(
         STORAGE_KEYS.CONTENT
-      );
+      ) || [];
 
     const updated =
-      stored.map((item) =>
-        item.id === id
-          ? {
-              ...item,
+      updateContentStatus(
+        stored,
+        id,
+        {
+          status:
+            "approved",
 
-              status:
-                "approved",
+          rejectionReason:
+            "",
 
-              rejectionReason:
-                "",
-            }
-          : item
+          approvedAt:
+            new Date().toISOString(),
+        }
       );
 
     setStorageData(
@@ -98,41 +125,39 @@ export const approveContent =
 ========================= */
 
 export const rejectContent =
-  async (id, reason) => {
-
-    await new Promise((res) =>
-      setTimeout(res, 500)
+  async (
+    id,
+    reason
+  ) => {
+    await new Promise(
+      (res) =>
+        setTimeout(
+          res,
+          500
+        )
     );
 
-    const user =
-      getCurrentUser();
-
-    if (
-      user?.role !== "principal"
-    ) {
-      throw new Error(
-        "Unauthorized"
-      );
-    }
+    validatePrincipal();
 
     const stored =
       getStorageData(
         STORAGE_KEYS.CONTENT
-      );
+      ) || [];
 
     const updated =
-      stored.map((item) =>
-        item.id === id
-          ? {
-              ...item,
+      updateContentStatus(
+        stored,
+        id,
+        {
+          status:
+            "rejected",
 
-              status:
-                "rejected",
+          rejectionReason:
+            reason,
 
-              rejectionReason:
-                reason,
-            }
-          : item
+          rejectedAt:
+            new Date().toISOString(),
+        }
       );
 
     setStorageData(
