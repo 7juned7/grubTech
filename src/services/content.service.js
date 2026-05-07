@@ -62,7 +62,6 @@ export const getTeacherContent =
 
 export const uploadContent =
   async (data) => {
-
     await new Promise((res) =>
       setTimeout(res, 500)
     );
@@ -75,9 +74,18 @@ export const uploadContent =
         STORAGE_KEYS.CONTENT
       );
 
-    const base64 =
-      await fileToBase64(
-        data.file[0]
+    const file =
+      data.file?.[0];
+
+    if (!file) {
+      throw new Error(
+        "No file selected"
+      );
+    }
+
+    const previewUrl =
+      URL.createObjectURL(
+        file
       );
 
     const newItem = {
@@ -91,6 +99,9 @@ export const uploadContent =
       subject:
         data.subject,
 
+      description:
+        data.description,
+
       status: "pending",
 
       startTime:
@@ -99,7 +110,14 @@ export const uploadContent =
       endTime:
         data.endTime,
 
-      preview: base64,
+      rotation:
+        data.rotation,
+
+      fileName: file.name,
+
+      fileType: file.type,
+
+      preview: previewUrl,
     };
 
     const updated = [

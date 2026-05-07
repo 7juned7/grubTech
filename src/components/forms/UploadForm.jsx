@@ -1,5 +1,9 @@
 "use client";
 
+import Image from "next/image";
+
+import { useEffect } from "react";
+
 import { useForm } from "react-hook-form";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,20 +17,27 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
 import { FormField } from "@/utils/formFields";
+
 import { Button } from "../ui/button";
 
 const schema = z
   .object({
-    title: z.string().min(1, "Title required"),
+    title: z
+      .string()
+      .min(1, "Title required"),
 
-    subject: z.string().min(1, "Subject required"),
+    subject: z
+      .string()
+      .min(1, "Subject required"),
 
-    description: z.string().optional(),
+    description:
+      z.string().optional(),
 
     file: z
       .any()
       .refine(
-        (file) => file?.length === 1,
+        (file) =>
+          file?.length === 1,
         "Please upload a file"
       )
       .refine(
@@ -35,8 +46,11 @@ const schema = z
             "image/jpeg",
             "image/png",
             "image/gif",
-          ].includes(file?.[0]?.type),
-        "Only JPG, PNG & GIF allowed"
+            "image/webp",
+          ].includes(
+            file?.[0]?.type
+          ),
+        "Only JPG, PNG, GIF & WEBP allowed"
       )
       .refine(
         (file) =>
@@ -47,18 +61,29 @@ const schema = z
 
     startTime: z
       .string()
-      .min(1, "Start time required"),
+      .min(
+        1,
+        "Start time required"
+      ),
 
     endTime: z
       .string()
-      .min(1, "End time required"),
+      .min(
+        1,
+        "End time required"
+      ),
 
-    rotation: z.string().optional(),
+    rotation:
+      z.string().optional(),
   })
   .refine(
     (data) =>
-      new Date(data.endTime) >
-      new Date(data.startTime),
+      new Date(
+        data.endTime
+      ) >
+      new Date(
+        data.startTime
+      ),
     {
       message:
         "End time must be after start time",
@@ -73,7 +98,8 @@ export default function UploadForm() {
     reset,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(schema),
+    resolver:
+      zodResolver(schema),
   });
 
   const {
@@ -82,18 +108,50 @@ export default function UploadForm() {
     mutation,
   } = useUpload(reset);
 
-  const onSubmit = async (data) => {
-    await mutation.mutateAsync(data);
+  const fileRegister =
+    register("file");
+
+  const onSubmit = async (
+    data
+  ) => {
+    await mutation.mutateAsync(
+      data
+    );
   };
+
+  // cleanup object url
+  useEffect(() => {
+    return () => {
+      if (
+        preview &&
+        preview.startsWith(
+          "blob:"
+        )
+      ) {
+        URL.revokeObjectURL(
+          preview
+        );
+      }
+    };
+  }, [preview]);
 
   return (
     <div className="min-h-screen bg-[#f6f7fb] p-4 lg:p-6">
-      
       <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="max-w-6xl mx-auto bg-white border border-gray-200 rounded-3xl overflow-hidden shadow-sm"
+        onSubmit={handleSubmit(
+          onSubmit
+        )}
+        className="
+          max-w-6xl
+          mx-auto
+          bg-white
+          border
+          border-gray-200
+          rounded-3xl
+          overflow-hidden
+          shadow-sm
+        "
       >
-        
         <div className="grid lg:grid-cols-[1fr_340px]">
           
           {/* LEFT */}
@@ -101,7 +159,6 @@ export default function UploadForm() {
             
             {/* HEADER */}
             <div className="flex items-start justify-between gap-4">
-              
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">
                   Upload Session
@@ -111,8 +168,6 @@ export default function UploadForm() {
                   Create and schedule live class content
                 </p>
               </div>
-
-              
             </div>
 
             {/* TITLE + SUBJECT */}
@@ -121,11 +176,14 @@ export default function UploadForm() {
               <FormField
                 label="Session Title"
                 error={
-                  errors.title?.message
+                  errors.title
+                    ?.message
                 }
               >
                 <Input
-                  {...register("title")}
+                  {...register(
+                    "title"
+                  )}
                   placeholder="Physics Marathon"
                   className={`
                     h-12
@@ -146,11 +204,14 @@ export default function UploadForm() {
               <FormField
                 label="Subject"
                 error={
-                  errors.subject?.message
+                  errors.subject
+                    ?.message
                 }
               >
                 <Input
-                  {...register("subject")}
+                  {...register(
+                    "subject"
+                  )}
                   placeholder="Physics"
                   className={`
                     h-12
@@ -167,12 +228,10 @@ export default function UploadForm() {
                   `}
                 />
               </FormField>
-
             </div>
 
             {/* DESCRIPTION */}
             <FormField label="Description">
-              
               <Textarea
                 {...register(
                   "description"
@@ -189,7 +248,6 @@ export default function UploadForm() {
                   focus-visible:ring-black/5
                 "
               />
-
             </FormField>
 
             {/* TIME */}
@@ -250,14 +308,14 @@ export default function UploadForm() {
                   `}
                 />
               </FormField>
-
             </div>
 
             {/* ROTATION */}
             <FormField
               label="Thumbnail Rotation"
               error={
-                errors.rotation?.message
+                errors.rotation
+                  ?.message
               }
             >
               <Input
@@ -283,32 +341,40 @@ export default function UploadForm() {
 
             {/* SUBMIT */}
             <div className="pt-2">
-              
-             <Button
-  type="submit"
-  disabled={
-    mutation.isPending
-  }
-  size="lg"
-  className="
-    w-full
-    h-12
-    rounded-2xl
-    font-semibold
-    cursor-pointer
-  "
->
-  {mutation.isPending
-    ? "Uploading..."
-    : "Publish Session"}
-</Button>
-
+              <Button
+                type="submit"
+                disabled={
+                  mutation.isPending
+                }
+                size="lg"
+                className="
+                  w-full
+                  h-12
+                  rounded-2xl
+                  font-semibold
+                  cursor-pointer
+                "
+              >
+                {mutation.isPending
+                  ? "Uploading..."
+                  : "Publish Session"}
+              </Button>
             </div>
           </div>
 
-          {/* RIGHT PANEL */}
-          <div className="border-t lg:border-l lg:border-t-0 border-gray-200 bg-[#fafafa] p-5 lg:p-6 space-y-5">
-            
+          {/* RIGHT */}
+          <div
+            className="
+              border-t
+              lg:border-l
+              lg:border-t-0
+              border-gray-200
+              bg-[#fafafa]
+              p-5
+              lg:p-6
+              space-y-5
+            "
+          >
             <div>
               <h2 className="text-lg font-semibold text-gray-900">
                 Thumbnail Preview
@@ -320,17 +386,39 @@ export default function UploadForm() {
             </div>
 
             {/* PREVIEW */}
-            <div className="relative aspect-video rounded-2xl overflow-hidden border border-dashed border-gray-300 bg-gray-100 flex items-center justify-center">
-              
+            <div
+              className="
+                relative
+                aspect-video
+                rounded-2xl
+                overflow-hidden
+                border
+                border-dashed
+                border-gray-300
+                bg-gray-100
+                flex
+                items-center
+                justify-center
+              "
+            >
               {preview ? (
-                <img
+                <Image
                   src={preview}
                   alt="preview"
-                  className="w-full h-full object-cover"
+                  fill
+                  unoptimized
+                  priority
+                  sizes="
+                    (max-width:768px)
+                    100vw,
+                    340px
+                  "
+                  className="
+                    object-cover
+                  "
                 />
               ) : (
                 <div className="text-center px-6">
-                  
                   <div className="text-4xl mb-3">
                     🖼️
                   </div>
@@ -340,9 +428,8 @@ export default function UploadForm() {
                   </p>
 
                   <p className="text-xs text-gray-500 mt-1">
-                    JPG, PNG or GIF
+                    JPG, PNG, GIF or WEBP
                   </p>
-
                 </div>
               )}
             </div>
@@ -351,15 +438,37 @@ export default function UploadForm() {
             <FormField
               label="Upload Thumbnail"
               error={
-                errors.file?.message
+                errors.file
+                  ?.message
               }
             >
               <Input
                 type="file"
-                {...register("file", {
-                  onChange:
-                    handleFileChange,
-                })}
+                accept="
+                  image/png,
+                  image/jpeg,
+                  image/jpg,
+                  image/gif,
+                  image/webp
+                "
+                name={
+                  fileRegister.name
+                }
+                ref={
+                  fileRegister.ref
+                }
+                onBlur={
+                  fileRegister.onBlur
+                }
+                onChange={(e) => {
+                  fileRegister.onChange(
+                    e
+                  );
+
+                  handleFileChange(
+                    e
+                  );
+                }}
                 className={`
                   h-12
                   rounded-2xl
@@ -367,7 +476,11 @@ export default function UploadForm() {
                   shadow-sm
                   focus-visible:ring-2
                   focus-visible:ring-black/5
-                   cursor-pointer
+                  file:border-0
+                  file:bg-transparent
+                  file:text-sm
+                  file:font-medium
+                  cursor-pointer
                   ${
                     errors.file
                       ? "border-red-300"
@@ -378,8 +491,16 @@ export default function UploadForm() {
             </FormField>
 
             {/* INFO */}
-            <div className="rounded-2xl bg-gray-50 border border-gray-200 p-4 space-y-3">
-              
+            <div
+              className="
+                rounded-2xl
+                bg-gray-50
+                border
+                border-gray-200
+                p-4
+                space-y-3
+              "
+            >
               <div>
                 <p className="text-sm font-medium text-gray-900">
                   Recommended
@@ -399,9 +520,7 @@ export default function UploadForm() {
                   Upload files under 10MB
                 </p>
               </div>
-
             </div>
-
           </div>
         </div>
       </form>
